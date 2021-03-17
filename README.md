@@ -1,3 +1,17 @@
+Engagement :
+- Consulter des memes
+- Poster des memes
+- Classer les memes par catégories
+- Trier les memes par date de publication / popularité
+- Attribuer des tags à un meme
+- Rechercher un meme par mots-clé
+Nice to have :
+- Composant de recherche avancée
+- Système de signalement des contenus illicites
+- Inscription/Authentification :
+    - Enregistrement de memes en favoris
+    - Recherche par auteur
+
 # MemeBoard
 
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 11.2.4.
