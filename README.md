@@ -5,6 +5,7 @@ Engagement :
 - Trier les memes par date de publication / popularité
 - Attribuer des tags à un meme
 - Rechercher un meme par mots-clé
+
 Nice to have :
 - Composant de recherche avancée
 - Système de signalement des contenus illicites
