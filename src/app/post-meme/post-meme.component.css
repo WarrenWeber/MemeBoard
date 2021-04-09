@@ -1,0 +1,52 @@
+.form-input
+{
+    display: block;
+}
+
+.form-input
+{
+    margin-bottom: 10px;
+}
+
+.tag-editor
+{
+    border: solid black 1px;
+    padding: 3px;
+    width: 40%;
+    height: 5vh;
+
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    align-items: flex-start;
+}
+
+.tag-editor-item
+{
+    margin-left: 2px;
+    margin-right: 2px;
+
+    border: solid black 1px;
+    border-radius: 1vh;
+}
+
+.meme-tag
+{
+    padding-left: 2px;
+    padding-right: 2px;
+}
+
+.tag-add
+{
+    max-width: 150px;
+}
+
+.tag-remove-button
+{
+    /*color: white;
+    background-color: grey;*/
+    padding: 0px;
+    margin: 0px;
+    border: none;
+    border-radius: 50vh;
+}

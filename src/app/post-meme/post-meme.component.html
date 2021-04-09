@@ -1,0 +1,26 @@
+<div class="post-meme-placeholder">
+    <h1>Post a meme</h1>
+    <form [formGroup]="memeForm" class="post-meme-form">
+        <div class="form-input">
+            <label>Titre :
+                <input type=text formControlName="title">
+            </label>
+        </div>
+        <div class="form-input">
+            <label>Image :
+                <input type=file formControlName="image">
+            </label>
+        </div>
+        <div class="form-input">
+            <label>Tags :</label>
+            <div class="tag-editor">
+                <span class="tag-editor-item meme-tag" *ngFor="let tag of this.tags">
+                    {{tag}}
+                    <button class="tag-remove-button" value={{tag}} (click)=this.removeTag($event)>x</button>
+                </span>
+                <input type=text class="tag-editor-item tag-add" (keydown.enter)="$event.preventDefault()" (keyup.enter)="this.addTag($event)">
+            </div>
+        </div>
+        <input type=submit value="Post">
+    </form>
+</div>

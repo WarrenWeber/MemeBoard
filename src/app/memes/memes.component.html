@@ -1,0 +1,4 @@
+<div class="memes-container" *ngFor="let meme of this.memes()">
+    <app-meme class="meme-item" [meme]="meme"></app-meme>
+</div>
+<button class="load_more" (click)="this.loadMore()">Load more</button>

@@ -1,0 +1,7 @@
+<div class="meme-placeholder">
+    <h3 class="meme-title">{{this.meme?.title}}</h3>
+    <img class="meme-image" src="../../assets/images/{{this.meme?.file}}">
+    <div class="meme-tags">
+        <span class="meme-tag" *ngFor="let tag of this.meme?.tags">{{tag}}</span>
+    </div>
+</div>
