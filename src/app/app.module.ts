@@ -12,23 +12,26 @@ import { MemeService } from './meme.service';
 
 import { AppComponent } from './app.component';
 import { MemeComponent } from './meme/meme.component';
-import { NavbarComponent } from './navbar/navbar.component';
 import { MemesComponent } from './memes/memes.component';
 import { PostMemeComponent } from './post-meme/post-meme.component';
-import {MatProgressBarModule} from '@angular/material/progress-bar';
+import { MatProgressBarModule } from '@angular/material/progress-bar';
+import { CollectionTagComponent } from './collection-tag/collection-tag.component';
+import { MemesCategoryComponent } from './memes-category/memes-category.component';
 
 const appRoutes: Routes = [
   { path: '', component: MemesComponent },
-  { path: 'post', component: PostMemeComponent }
-]
+  { path: 'post', component: PostMemeComponent },
+  { path: ':category', component: MemesCategoryComponent}
+];
 
 @NgModule({
   declarations: [
     AppComponent,
     MemeComponent,
-    NavbarComponent,
     MemesComponent,
-    PostMemeComponent
+    PostMemeComponent,
+    CollectionTagComponent,
+    MemesCategoryComponent
   ],
   imports: [
     RouterModule.forRoot(

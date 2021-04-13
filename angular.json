@@ -31,7 +31,9 @@
             "styles": [
               "src/styles.css"
             ],
-            "scripts": []
+            "scripts": [
+              "src/assets/js/navbar.js"
+            ]
           },
           "configurations": {
             "production": {

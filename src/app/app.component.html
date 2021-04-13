@@ -1,2 +1,39 @@
-<app-navbar id="main_navbar"></app-navbar>
+<div>
+  <ul class="sidenav" id="sidenav-menu">
+    <li><a routerLink="">Home</a></li>
+    <li><a routerLink="">Memes</a></li>
+    <li><a routerLink="/post">Post</a></li>
+    <li>
+      <form>
+        <div class="input-field">
+          <i class="material-icons prefix">search</i>
+          <input type="text" placeholder="search" id="search" class="label-icon" >
+        </div>
+      </form>
+    </li>
+  </ul>
+  <div class="navbar-fixed">
+    <nav class="blue">
+      <div class="nav-wrapper">
+        <a routerLink="" class="brand-logo center">MemeBoard</a>
+        <a href="#" data-target="sidenav-menu" class="sidenav-trigger right"><i class="material-icons">menu</i></a>
+        <a href="#" data-target="sidenav-categories" class="sidenav-trigger left"><i class="material-icons">menu</i></a>
+        <ul class="hide-on-med-and-down right">
+          <li>
+            <form>
+              <div class="input-field">
+                <input id="search" type="search" required>
+                <label class="label-icon" for="search"><i class="material-icons">search</i></label>
+                <i class="material-icons">close</i>
+              </div>
+            </form>
+          </li>
+          <li><a routerLink="">Home</a></li>
+          <li><a routerLink="">Memes</a></li>
+          <li><a routerLink="/post">Post</a></li>
+        </ul>
+      </div>
+    </nav>
+  </div>
+</div>
 <router-outlet></router-outlet>

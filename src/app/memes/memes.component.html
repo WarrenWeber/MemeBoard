@@ -4,7 +4,8 @@
     <input type="radio" name="sort-setting" class="btn-sort" id="btn-sort-point">
     <label for="btn-sort-point" class="lbl-sort">Best</label>
 </div>
+<app-collection-tag></app-collection-tag>
 <div class="memes-container" *ngFor="let meme of this.memes()">
     <app-meme class="meme-item" [meme]="meme"></app-meme>
 </div>
-<button class="load_more" (click)="this.loadMore()">Load more</button>
+<button class="load_more" id="LoadMore" (click)="this.loadMore()">Load more</button>
