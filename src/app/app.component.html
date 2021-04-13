@@ -4,12 +4,10 @@
     <li><a routerLink="">Memes</a></li>
     <li><a routerLink="/post">Post</a></li>
     <li>
-      <form>
-        <div class="input-field">
-          <i class="material-icons prefix">search</i>
-          <input type="text" placeholder="search" id="txt-search" class="label-icon" >
-        </div>
-      </form>
+      <div class="input-field">
+        <i class="material-icons prefix">search</i>
+        <input type="search" placeholder="search" id="txt-search" class="label-icon" (search)="this.search($event)" >
+      </div>
     </li>
   </ul>
   <div class="navbar-fixed">
@@ -21,7 +19,7 @@
         <ul class="hide-on-med-and-down right flex">
           <li>
               <div class="input-field">
-                <input id="search" type="search" (search)="this.search($event)" required>
+                <input id="search" type="search" (search)="this.search($event)">
                 <label class="label-icon" for="search"><i class="material-icons">search</i></label>
                 <i class="material-icons">close</i>
               </div>
