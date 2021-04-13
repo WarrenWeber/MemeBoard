@@ -22,6 +22,7 @@ export class MemesComponent implements OnInit {
 
   private category : string = '';
   private tag : string = '';
+  private search : string = '';
 
   constructor(private memeService: MemeService, private route: ActivatedRoute) {
     this._memes = [];
@@ -32,6 +33,7 @@ export class MemesComponent implements OnInit {
 
     this.category = routeParams.get('category') != null ? String(routeParams.get('category')) : '';
     this.tag = routeParams.get('tag') != null ? String(routeParams.get('tag')) : '';
+    this.search = routeParams.get('search') != null ? String(routeParams.get('search')) : '';
 
     console.log(this.tag);
 
@@ -87,7 +89,7 @@ export class MemesComponent implements OnInit {
   }
 
   getBaseQueryString() : string {
-    return this.getSort() + this.getOrder() + this.getCategoryFilter() + this.getTagFilter();
+    return this.getSort() + this.getOrder() + this.getCategoryFilter() + this.getTagFilter() + this.getSearchFilter();
   }
 
   getCategoryFilter() : string {
@@ -96,6 +98,10 @@ export class MemesComponent implements OnInit {
 
   getTagFilter() : string {
     return this.tag != '' ? `&tags_like=${this.tag}` : '';
+  }
+
+  getSearchFilter() : string {
+    return this.search != '' ? `&title_like=${this.search}` : '';
   }
 
   getSort(): string {

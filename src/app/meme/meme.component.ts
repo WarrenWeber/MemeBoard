@@ -17,6 +17,12 @@ export class MemeComponent implements OnInit {
   ngOnInit(): void {
   }
 
+  getTimeLabel() : string {
+    if(this.meme?.date != undefined)
+      return (new Date(this.meme?.date)).toLocaleString();
+    return 'some time ago';
+  }
+
   voteStatus = 0;
   vote(event : any)
   {

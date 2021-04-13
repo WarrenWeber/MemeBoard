@@ -23,6 +23,7 @@ const appRoutes: Routes = [
   //{ path: ':category', component: MemesCategoryComponent},
   { path: 'category/:category', component: MemesComponent },
   { path: 'tag/:tag', component: MemesComponent },
+  { path: 'search/:search', component: MemesComponent },
 ];
 
 @NgModule({

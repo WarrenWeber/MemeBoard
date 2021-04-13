@@ -18,15 +18,13 @@
         <a routerLink="" class="brand-logo center">MemeBoard</a>
         <a href="#" data-target="sidenav-menu" class="sidenav-trigger right"><i class="material-icons">menu</i></a>
         <a href="#" data-target="sidenav-categories" class="sidenav-trigger left"><i class="material-icons">menu</i></a>
-        <ul class="hide-on-med-and-down right">
+        <ul class="hide-on-med-and-down right flex">
           <li>
-            <form>
               <div class="input-field">
-                <input id="search" type="search" required>
+                <input id="search" type="search" (search)="this.search($event)" required>
                 <label class="label-icon" for="search"><i class="material-icons">search</i></label>
                 <i class="material-icons">close</i>
               </div>
-            </form>
           </li>
           <li><a routerLink="">Home</a></li>
           <li><a routerLink="">Memes</a></li>
