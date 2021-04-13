@@ -12,22 +12,26 @@ import { MemeService } from './meme.service';
 
 import { AppComponent } from './app.component';
 import { MemeComponent } from './meme/meme.component';
-import { NavbarComponent } from './navbar/navbar.component';
 import { MemesComponent } from './memes/memes.component';
 import { PostMemeComponent } from './post-meme/post-meme.component';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { CollectionTagComponent } from './collection-tag/collection-tag.component';
+import { MemesCategoryComponent } from './memes-category/memes-category.component';
 
 const appRoutes: Routes = [
   { path: '', component: MemesComponent },
-  { path: 'post', component: PostMemeComponent }
-]
+  { path: 'post', component: PostMemeComponent },
+  { path: ':category', component: MemesCategoryComponent}
+];
 
 @NgModule({
   declarations: [
     AppComponent,
     MemeComponent,
-    NavbarComponent,
     MemesComponent,
-    PostMemeComponent
+    PostMemeComponent,
+    CollectionTagComponent,
+    MemesCategoryComponent
   ],
   imports: [
     RouterModule.forRoot(
@@ -38,7 +42,8 @@ const appRoutes: Routes = [
     ReactiveFormsModule,
     HttpClientModule,
     AppRoutingModule,
-    ServiceWorkerModule.register('ngsw-worker.js', { enabled: environment.production })
+    ServiceWorkerModule.register('ngsw-worker.js', { enabled: environment.production }),
+    BrowserAnimationsModule
   ],
   providers: [MemeService],
   bootstrap: [AppComponent]
