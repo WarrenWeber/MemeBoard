@@ -46,6 +46,6 @@ testem.log
 Thumbs.db
 
 # Images
-/db/images/
-/src/assets/images/
+/db/MemeBoard/images/
+/db/MemeBoard/images/
 
