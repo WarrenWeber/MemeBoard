@@ -1,4 +1,4 @@
-<div>
+<header>
   <ul class="sidenav" id="sidenav-menu">
     <li><a routerLink="">Home</a></li>
     <li><a routerLink="">Memes</a></li>
@@ -7,7 +7,7 @@
       <form>
         <div class="input-field">
           <i class="material-icons prefix">search</i>
-          <input type="text" placeholder="search" id="search" class="label-icon" >
+          <input type="text" placeholder="search" id="txt-search" class="label-icon" >
         </div>
       </form>
     </li>
@@ -35,5 +35,8 @@
       </div>
     </nav>
   </div>
-</div>
-<router-outlet></router-outlet>
+</header>
+<main>
+  <router-outlet></router-outlet>
+</main>
+

@@ -8,9 +8,12 @@ import json
 
 data_out = {}
 data_out['memes'] = []
+data_out['categories'] = []
 
 with open('C:\DevWeb\MemeBoard\db\meme.json', 'r') as file_in: 
-    id = 1
+    id_meme = 1
+    id_category = 1
+    
     data_in = json.load(file_in)
     for item in data_in:
         title = item['donnees']['name']
@@ -19,17 +22,22 @@ with open('C:\DevWeb\MemeBoard\db\meme.json', 'r') as file_in:
         category = item['donnees']['Type'] if ('Type' in item['donnees']) else None
         tags = item['donnees']['Tags']
         
+        category = 'Random' if category in [None, 'null', ''] else category
+        
         data_out['memes'].append({
-            'id': id,
+            'id': id_meme,
             'title': title,
             'file': file,
             'date': date,
             'category': category,
             'tags': tags,
-            'upvotes': 0,
-            'downvotes': 0
+            'votes': 0
         })
-        id += 1
+        
+        if not category in data_out['categories'] and not category in [None, 'null', '']:
+            data_out['categories'].append(category)
+        
+        id_meme += 1
         
 with open('C:\DevWeb\MemeBoard\db\memes.json', 'w') as file_out:
     json.dump(data_out, file_out, indent=4)

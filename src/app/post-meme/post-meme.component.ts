@@ -5,6 +5,7 @@ import { HttpClient, HttpHeaders, HttpEventType } from '@angular/common/http';
 import { MemeService } from '../meme.service';
 import { Router } from '@angular/router';
 import {MatProgressBarModule} from '@angular/material/progress-bar';
+import { Observable, of } from 'rxjs';
 
 @Component({
   selector: 'app-post-meme',
@@ -18,7 +19,7 @@ export class PostMemeComponent implements OnInit {
   uploadProgress : number = 0;
   fileName : string = "";
 
-  categories : string[] = ['Random', 'Politics'];
+  categories : string[] = [];
 
   constructor(private fb: FormBuilder, private memeService: MemeService, private httpClient : HttpClient, private router: Router) {
     this.memeForm = this.fb.group({
@@ -30,10 +31,9 @@ export class PostMemeComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    let date = new Date();
-    console.log(date.toISOString());
-    let date2 = new Date(date.toISOString());
-    console.log(date2);
+    this.memeService.getCategories().subscribe(result => {
+      this.categories = result.sort();
+    });
   }
 
   addTag() {
@@ -64,20 +64,6 @@ export class PostMemeComponent implements OnInit {
       //this.memeForm.get('fileName')?.setValue(file);
   }
 
-  onSubmit() {
-    //this.uploadImage(this.memeForm.get('uploadFile')?.value);
-    const meme = {
-      title: this.memeForm.get('title')?.value,
-      category: this.memeForm.get('category')?.value,
-      file: this.memeForm.get('fileName')?.value,
-      date: new Date(),
-      tags: this.memeForm.get('tags')?.value
-    };
-    this.memeService.postMeme(meme).subscribe((val)=>{
-      this.router.navigate(['']);
-    });
-  }
-
   uploadImage(file : File)
   {
     const formData = new FormData();
@@ -96,10 +82,25 @@ export class PostMemeComponent implements OnInit {
           console.log(this.fileName);
           this.memeForm.get('fileName')?.setValue(this.fileName);
         }
-      },
+      }, 
       (error) => {
         console.log(error)
       }
     );
+  }
+
+  onSubmit() {
+    //this.uploadImage(this.memeForm.get('uploadFile')?.value);
+    const meme : Meme = {
+      title: this.memeForm.get('title')?.value,
+      category: this.memeForm.get('category')?.value,
+      file: this.memeForm.get('fileName')?.value,
+      date: new Date(),
+      tags: this.memeForm.get('tags')?.value,
+      votes: 0
+    };
+    this.memeService.postMeme(meme).subscribe((val)=>{
+      this.router.navigate(['']);
+    });
   }
 }

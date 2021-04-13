@@ -1,6 +1,6 @@
 import { Component, OnInit, HostListener } from '@angular/core';
-import { Observable, of, forkJoin } from 'rxjs';
-
+import { Observable, of } from 'rxjs';
+import { ActivatedRoute } from '@angular/router';
 import { MemeService } from '../meme.service';
 
 import { Meme } from '../models/meme';
@@ -20,12 +20,21 @@ export class MemesComponent implements OnInit {
   private sort = 'date';
   private sort_order = 'desc';
 
-  constructor(private memeService: MemeService) {
-    // this._memes = of();
+  private category : string = '';
+  private tag : string = '';
+
+  constructor(private memeService: MemeService, private route: ActivatedRoute) {
     this._memes = [];
   }
 
   ngOnInit(): void {
+    const routeParams = this.route.snapshot.paramMap;
+
+    this.category = routeParams.get('category') != null ? String(routeParams.get('category')) : '';
+    this.tag = routeParams.get('tag') != null ? String(routeParams.get('tag')) : '';
+
+    console.log(this.tag);
+
     this.loadMore();
   }
 
@@ -36,24 +45,37 @@ export class MemesComponent implements OnInit {
     }
   }
 
+  setSortMethod(event : any)
+  {
+    let val = event.target.value;
+    this.sort = val;
+    this._memes = [];
+    this.loadMore();
+  }
+
   loadMore(): void {
-    let queryString = this.getSort() + '&' + this.getOrder() + `&_page=1&_limit=${this.limit}`;
+    let queryString = this.getBaseQueryString() + `&_page=1&_limit=${this.limit}`;
+
+    let lastSortAttribute = this.getLastSortAttribute();
 
     if (this._memes.length > 0) {
-      queryString += `&date=${this._memes[this._memes.length - 1]?.date}&id_gte=${this._memes[this._memes.length - 1].id}&id_ne=${this._memes[this._memes.length - 1].id}`;
+      queryString += `&id_gte=${this._memes[this._memes.length - 1].id}&id_ne=${this._memes[this._memes.length - 1].id}`;
+
+      if(lastSortAttribute != undefined)
+        queryString += `&${this.sort}=${lastSortAttribute}`;
     }
 
     this.memeService.getMemes(queryString).subscribe(result => {
-      if (result.length == this.limit)
+      if (result.length == this.limit || this._memes.length == 0)
       {
         Array.prototype.push.apply(this._memes, result);
       }
       else
       {
-        let queryString2 = this.getSort() + '&' + this.getOrder() + `&_page=1&_limit=${this.limit - result.length}`;
+        let queryString2 = this.getBaseQueryString() + `&_page=1&_limit=${this.limit - result.length}`;
 
-        if (result.length > 0) {
-          queryString2 += `&date_lte=${result[result.length - 1]?.date}&date_ne=${result[result.length - 1]?.date}`;
+        if (lastSortAttribute != undefined) {
+          queryString2 += `&${this.sort}_${this.sort_order == 'desc' ? "lte" : "gte"}=${lastSortAttribute}&${this.sort}_ne=${lastSortAttribute}`;
         }
 
         this.memeService.getMemes(queryString2).subscribe(result2 => {
@@ -64,12 +86,35 @@ export class MemesComponent implements OnInit {
     });
   }
 
+  getBaseQueryString() : string {
+    return this.getSort() + this.getOrder() + this.getCategoryFilter() + this.getTagFilter();
+  }
+
+  getCategoryFilter() : string {
+    return this.category != '' ? `&category=${this.category}` : '';
+  }
+
+  getTagFilter() : string {
+    return this.tag != '' ? `&tags_like=${this.tag}` : '';
+  }
+
   getSort(): string {
-    return `_sort=${this.sort},id`;
+    return `&_sort=${this.sort},id`;
   }
 
   getOrder(): string {
-    return `_order=${this.sort_order},asc`;
+    return `&_order=${this.sort_order},asc`;
+  }
+
+  getLastSortAttribute() {
+    let lastSortAttribute = undefined;
+    if (this._memes.length > 0) {
+      switch(this.sort) {
+        case 'date':  lastSortAttribute = `${this._memes[this._memes.length - 1]?.date}`;    break;
+        case 'votes': lastSortAttribute = `${this._memes[this._memes.length - 1]?.votes}`;   break;
+      }
+    }
+    return lastSortAttribute;
   }
 
   memes(): Meme[] {

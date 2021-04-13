@@ -1,5 +1,6 @@
 import { Component, OnInit, Input, Output } from '@angular/core';
 import { Meme } from '../models/meme';
+import { MemeService } from '../meme.service';
 
 @Component({
   selector: 'app-meme',
@@ -11,19 +12,23 @@ export class MemeComponent implements OnInit {
   @Input()
   meme?: Meme;
 
-  constructor() { }
+  constructor(private memeService: MemeService) { }
 
   ngOnInit(): void {
   }
 
   voteStatus = 0;
-  upvoted : boolean = false;
-  downvoted : boolean = false;
   vote(event : any)
   {
     let newVoteStatus = this.voteStatus != event.target.value ? event.target.value : 0;
     let delta = newVoteStatus - this.voteStatus;
     this.voteStatus = newVoteStatus;
-    console.log(this.voteStatus + "\t(" + delta + ")");
+
+    this.memeService.getMemeByID(this.meme?.id).subscribe((result) => {
+      result.votes = (result.votes || 0) + delta;
+      this.memeService.patchMeme(result).subscribe((result2) => {
+        this.meme = result2;
+      });
+    });
   }
 }

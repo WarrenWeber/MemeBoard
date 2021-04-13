@@ -18,14 +18,6 @@ export class MemeService {
     return this.http.get<Meme[]>('http://localhost:3000/memes?' + querystring);
   }
 
-  public getMemesByStartEnd(start: number, end: number): Observable<Meme[]> {
-    return this.http.get<Meme[]>(`http://localhost:3000/memes?_sort=date&_order=desc&_start=${start}&_end=${end}`);
-  }
-
-  public getMemesByStartEndByCategory(start: number, end: number, category: string): Observable<Meme[]> {
-    return this.http.get<Meme[]>(`http://localhost:3000/memes?_sort=id&_order=desc&_start=${start}&_end=${end}&category=${category}`);
-  }
-
   public getMemeByID(id?: number): Observable<Meme> {
     return this.http.get<Meme>(`http://localhost:3000/memes/${id}`);
   }
@@ -36,6 +28,14 @@ export class MemeService {
 
   public postMeme(meme: Meme): Observable<Meme> {
     return this.http.post<Meme>('http://localhost:3000/memes', meme);
+  }
+
+  public patchMeme(meme? : Meme) : Observable<Meme> {
+    return this.http.patch<Meme>(`http://localhost:3000/memes/${meme?.id}`, meme);
+  }
+
+  public getCategories() : Observable<string[]> {
+    return this.http.get<string[]>('http://localhost:3000/categories');
   }
 
   constructor(private http: HttpClient) { }

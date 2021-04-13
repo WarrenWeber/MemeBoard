@@ -1,8 +1,8 @@
 <div class="sort-settings">
-    <input type="radio" name="sort-setting" class="btn-sort" id="btn-sort-date" checked>
+    <input type="radio" name="sort-setting" value="date" class="btn-sort" id="btn-sort-date" (change)="this.setSortMethod($event)" checked>
     <label for="btn-sort-date" class="lbl-sort">New</label>
-    <input type="radio" name="sort-setting" class="btn-sort" id="btn-sort-point">
-    <label for="btn-sort-point" class="lbl-sort">Best</label>
+    <input type="radio" name="sort-setting" value="votes" class="btn-sort" id="btn-sort-votes" (change)="this.setSortMethod($event)">
+    <label for="btn-sort-votes" class="lbl-sort">Best</label>
 </div>
 <app-collection-tag></app-collection-tag>
 <div class="memes-container" *ngFor="let meme of this.memes()">

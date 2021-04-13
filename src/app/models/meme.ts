@@ -5,6 +5,5 @@ export type Meme = {
     file? : string,
     date? : Date,
     tags? : string[],
-    upvotes? : number,
-    downvotes? : number
+    votes? : number
 };  

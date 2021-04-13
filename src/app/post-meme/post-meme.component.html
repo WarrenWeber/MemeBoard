@@ -31,11 +31,11 @@
             <div class="tag-editor">
                 <span class="tag-editor-item meme-tag" *ngFor="let tag of this.memeForm.get('tags')?.value">
                     <span class="tag-label">{{tag}}</span>
-                    <button class="tag-remove-button" value={{tag}} (click)=this.removeTag($event)>x</button>
+                    <button name="remove-tag" class="tag-remove-button" value={{tag}} (click)=this.removeTag($event)>x</button>
                 </span>
                 <span class="new-tag-placeholder tag-editor-item">
                     <input #txtAddTag type=text id='tag-editor-txt' class="new-tag-txt" (keydown.enter)="$event.preventDefault()" (keyup.enter)="this.addTag()">
-                    <button class="new-tag-btn" (click)="$event.preventDefault(); this.addTag();" (keydown.enter)="$event.preventDefault(); this.addTag();">+</button>
+                    <button name="new-tag" class="new-tag-btn" (click)="$event.preventDefault(); this.addTag();" (keydown.enter)="$event.preventDefault(); this.addTag();">+</button>
                 </span>
             </div>
         </div>

@@ -9,12 +9,9 @@
     justify-content: flex-start;
 }
 
-.meme-tag {
-    border: grey solid 1px;
-    padding: 2px;
-    margin: 1px;
-    background-color: lightgrey;
-    border-radius: 2px;
+.meme-link {
+    text-decoration: none;
+    color: inherit;
 }
 
 .vote-placeholder

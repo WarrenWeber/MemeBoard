@@ -85,8 +85,10 @@
 {
     outline: none;
 }
-.new-tag-txt
+.tag-editor-item > .new-tag-txt
 {
+    height: auto;
+    margin: 0px;
 }
 
 .submit-btn

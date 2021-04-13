@@ -1,20 +1,23 @@
 <div class="row">
-  <div class="col12 s12 m6">
-    <div class="card">
-      <div class="card-image">
-        <img class="meme-image" src="../../assets/images/{{this.meme?.file}}">
-      </div>
-      <div class="card-content meme-tags">
-        <span class="card-title meme-title">{{this.meme?.title}}</span>
-      </div>
-      <div class="chip" *ngFor="let tag of this.meme?.tags">{{tag}}</div>
-      <span>{{this.meme?.date}}</span>
-      <div class="vote-placeholder">
-        <input type=radio name="vote" class="btn-vote" id="btn-upvote" value=1 [checked]="this.voteStatus==1" (click)="this.vote($event)">
-        <label for="btn-upvote">▲</label>
-        <input type=radio name="vote" class="btn-vote" id="btn-downvote" value=-1 [checked]="this.voteStatus==-1" (click)="this.vote($event)">
-        <label for="btn-downvote">▼</label>
-      </div>
+    <div class="col12 s12 m6">
+        <div class="card">
+            <div class="card-image">
+                <img class="meme-image" src="http://localhost:80/MemeBoard/images/{{this.meme?.file}}" alt="{{this.meme?.title}}">
+            </div>
+        <div class="card-content meme-tags">
+            <span class="card-title meme-title">{{this.meme?.title}}</span>
+        </div>
+        <div class="chip meme-tag" *ngFor="let tag of this.meme?.tags">
+            <a href="/tag/{{tag}}" class="meme-link">{{tag}}</a>
+        </div>
+        <span>{{this.meme?.date}}</span>
+        <div class="vote-placeholder">
+            <input type=radio name="vote" class="btn-vote" id="btn-upvote-{{this.meme?.id}}" value=1 [checked]="this.voteStatus==1" (click)="this.vote($event)">
+            <label for="btn-upvote-{{this.meme?.id}}">▲</label>
+            <input type=radio name="vote" class="btn-vote" id="btn-downvote-{{this.meme?.id}}" value=-1 [checked]="this.voteStatus==-1" (click)="this.vote($event)">
+            <label for="btn-downvote-{{this.meme?.id}}">▼</label>
+            <span>{{this.meme?.votes}} point(s)</span>
+        </div>
     </div>
-  </div>
+    </div>
 </div>
