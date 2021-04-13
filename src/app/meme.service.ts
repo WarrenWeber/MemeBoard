@@ -9,19 +9,16 @@ import { Meme } from './models/meme';
 })
 export class MemeService {
 
-  /*public getMemes(): Meme[] {
-    return [
-      { id: 1, title: 'Anarchy', file: 'left.png' },
-      { id: 2, title: 'Doggo', file: '1a427b0e8906ad3be85fa028e61e4f16769c20e2.jpg' }
-    ];
+  /*public getMemes(): Observable<Meme[]> {
+    return this.http.get<Meme[]>("http://localhost:3000/memes?_sort=date&_order=desc");
   }*/
 
-  public getMemes(): Observable<Meme[]> {
-    return this.http.get<Meme[]>("http://localhost:3000/memes?_sort=id&_order=desc");
+  public getMemes(querystring: string): Observable<Meme[]> {
+    return this.http.get<Meme[]>("http://localhost:3000/memes?" + querystring);
   }
 
   public getMemesByStartEnd(start: number, end: number): Observable<Meme[]> {
-    return this.http.get<Meme[]>(`http://localhost:3000/memes?_sort=id&_order=desc&_start=${start}&_end=${end}`);
+    return this.http.get<Meme[]>(`http://localhost:3000/memes?_sort=date&_order=desc&_start=${start}&_end=${end}`);
   }
 
   public getMemeByID(id?: number): Observable<Meme> {
@@ -30,6 +27,10 @@ export class MemeService {
 
   public deleteMeme(id?: number): Observable<Meme> {
     return this.http.delete<Meme>(`http://localhost:3000/memes/${id}`);
+  }
+
+  public postMeme(meme: Meme) : Observable<Meme> {
+    return this.http.post<Meme>("http://localhost:3000/memes", meme);
   }
 
   constructor(private http : HttpClient) { }

@@ -1,26 +1,44 @@
 <div class="post-meme-placeholder">
     <h1>Post a meme</h1>
-    <form [formGroup]="memeForm" class="post-meme-form">
+    <form class="post-meme-form" [formGroup]="memeForm" (ngSubmit)="onSubmit()">
         <div class="form-input">
             <label>Titre :
                 <input type=text formControlName="title">
             </label>
         </div>
         <div class="form-input">
-            <label>Image :
-                <input type=file formControlName="image">
+            <label>Category :
+                <select formControlName="category">
+                    <option *ngFor="let cat of this.categories" value={{cat}}>{{cat}}</option>
+                </select>
+            </label>
+        </div>
+        <div class="form-input image-upload">
+
+            <label>
+                Image :
+                <div class="image-preview-placeholder">
+                    <img class="image-preview" src="http://localhost:80/MemeBoard/images/{{this.fileName}}" *ngIf="this.fileName != ''">
+                </div>
+                <div class="progress">
+                    <mat-progress-bar class="progress-bar" mode="determinate" [value]="uploadProgress" *ngIf="this.uploadProgress != 0 && this.uploadProgress != 100"></mat-progress-bar>  
+                </div>
+                <input type=file accept="image/*" (change)="onFileChange($event)">
             </label>
         </div>
         <div class="form-input">
             <label>Tags :</label>
             <div class="tag-editor">
-                <span class="tag-editor-item meme-tag" *ngFor="let tag of this.tags">
-                    {{tag}}
+                <span class="tag-editor-item meme-tag" *ngFor="let tag of this.memeForm.get('tags')?.value">
+                    <span class="tag-label">{{tag}}</span>
                     <button class="tag-remove-button" value={{tag}} (click)=this.removeTag($event)>x</button>
                 </span>
-                <input type=text class="tag-editor-item tag-add" (keydown.enter)="$event.preventDefault()" (keyup.enter)="this.addTag($event)">
+                <span class="new-tag-placeholder tag-editor-item">
+                    <input #txtAddTag type=text id='tag-editor-txt' class="new-tag-txt" (keydown.enter)="$event.preventDefault()" (keyup.enter)="this.addTag()">
+                    <button class="new-tag-btn" (click)="$event.preventDefault(); this.addTag();" (keydown.enter)="$event.preventDefault(); this.addTag();">+</button>
+                </span>
             </div>
         </div>
-        <input type=submit value="Post">
+        <input type=submit class="submit-btn" value="Post" [disabled]="memeForm.invalid">
     </form>
 </div>

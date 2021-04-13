@@ -1,3 +1,9 @@
+<div class="sort-settings">
+    <input type="radio" name="sort-setting" class="btn-sort" id="btn-sort-date" checked>
+    <label for="btn-sort-date" class="lbl-sort">New</label>
+    <input type="radio" name="sort-setting" class="btn-sort" id="btn-sort-point">
+    <label for="btn-sort-point" class="lbl-sort">Best</label>
+</div>
 <div class="memes-container" *ngFor="let meme of this.memes()">
     <app-meme class="meme-item" [meme]="meme"></app-meme>
 </div>

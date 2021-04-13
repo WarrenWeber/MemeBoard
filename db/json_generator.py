@@ -15,7 +15,7 @@ with open('C:\DevWeb\MemeBoard\db\meme.json', 'r') as file_in:
     for item in data_in:
         title = item['donnees']['name']
         file = item['image'].split('/')[-1]
-        date = item['donnees']['Year']
+        date = (item['donnees']['Year'] if ('Year' in item['donnees'] and (item['donnees']['Year']).isnumeric()) else "1900") + "-01-01T00:00:00.000Z"
         category = item['donnees']['Type'] if ('Type' in item['donnees']) else None
         tags = item['donnees']['Tags']
         
@@ -25,7 +25,9 @@ with open('C:\DevWeb\MemeBoard\db\meme.json', 'r') as file_in:
             'file': file,
             'date': date,
             'category': category,
-            'tags': tags
+            'tags': tags,
+            'upvotes': 0,
+            'downvotes': 0
         })
         id += 1
         

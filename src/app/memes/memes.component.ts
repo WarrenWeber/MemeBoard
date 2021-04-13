@@ -12,9 +12,13 @@ import { Meme } from '../models/meme';
 })
 export class MemesComponent implements OnInit {
   private _memes : Meme[];
-  private nbMeme : number = 0;
-  private nbMemeByLoad : number = 5;
-  //private _memes : Meme[];
+
+  private page : number = 1;
+  private start : number = 0;
+  private limit : number = 5;
+
+  private sort : string = "date";
+  private sort_order : string = "desc"
 
   constructor(private memeService: MemeService) {
     //this._memes = of();
@@ -22,8 +26,7 @@ export class MemesComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.memeService.getMemesByStartEnd(0, this.nbMemeByLoad).subscribe(result => this._memes = result);
-    this.nbMeme = this.nbMemeByLoad;
+    this.loadMore();
   }
 
   @HostListener("window:scroll", ["$event"])
@@ -33,14 +36,38 @@ export class MemesComponent implements OnInit {
     }
   }
 
-  addMemes(memes: Meme[]): void {
-    for(var i = 1; i < memes.length ; i++){ this._memes.push(memes[i]); }
+  loadMore(): void {
+    let queryString = this.getSort() + "&" + this.getOrder() + `&_page=1&_limit=${this.limit}`;
+
+    if(this._memes.length > 0)
+      queryString += `&date=${this._memes[this._memes.length-1]?.date}&id_gte=${this._memes[this._memes.length-1].id}&id_ne=${this._memes[this._memes.length-1].id}`;
+
+    this.memeService.getMemes(queryString).subscribe(result => {
+      if(result.length == this.limit)
+      {
+        Array.prototype.push.apply(this._memes, result);
+      }
+      else
+      {
+        let queryString2 = this.getSort() + "&" + this.getOrder() + `&_page=1&_limit=${this.limit-result.length}`;
+        
+        if(result.length > 0)
+          queryString2 += `&date_lte=${result[result.length-1]?.date}&date_ne=${result[result.length-1]?.date}`;
+        
+          this.memeService.getMemes(queryString2).subscribe(result2 => {
+          Array.prototype.push.apply(result, result2);
+          Array.prototype.push.apply(this._memes, result);
+        });
+      }
+    });
   }
 
-  loadMore(): void {
-    console.log("load more");
-    this.memeService.getMemesByStartEnd(this.nbMeme, this.nbMeme+this.nbMemeByLoad).subscribe(result => { this.addMemes(result); });
-    this.nbMeme = this.nbMeme + this.nbMemeByLoad;
+  getSort() : string {
+    return `_sort=${this.sort},id`
+  }
+
+  getOrder() : string {
+    return `_order=${this.sort_order},asc`
   }
 
   memes() {

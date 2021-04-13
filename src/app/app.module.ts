@@ -15,6 +15,7 @@ import { MemeComponent } from './meme/meme.component';
 import { NavbarComponent } from './navbar/navbar.component';
 import { MemesComponent } from './memes/memes.component';
 import { PostMemeComponent } from './post-meme/post-meme.component';
+import {MatProgressBarModule} from '@angular/material/progress-bar';
 
 const appRoutes: Routes = [
   { path: '', component: MemesComponent },
@@ -38,6 +39,7 @@ const appRoutes: Routes = [
     ReactiveFormsModule,
     HttpClientModule,
     AppRoutingModule,
+    MatProgressBarModule,
     ServiceWorkerModule.register('ngsw-worker.js', { enabled: environment.production })
   ],
   providers: [MemeService],

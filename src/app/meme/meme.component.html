@@ -1,7 +1,14 @@
 <div class="meme-placeholder">
     <h3 class="meme-title">{{this.meme?.title}}</h3>
-    <img class="meme-image" src="../../assets/images/{{this.meme?.file}}">
+    <img class="meme-image" src="http://localhost:80/MemeBoard/images/{{this.meme?.file}}">
     <div class="meme-tags">
         <span class="meme-tag" *ngFor="let tag of this.meme?.tags">{{tag}}</span>
+    </div>
+    <span>{{this.meme?.date}}</span>
+    <div class="vote-placeholder">
+        <input type=radio name="vote" class="btn-vote" id="btn-upvote" value=1 [checked]="this.voteStatus==1" (click)="this.vote($event)">
+        <label for="btn-upvote">▲</label>
+        <input type=radio name="vote" class="btn-vote" id="btn-downvote" value=-1 [checked]="this.voteStatus==-1" (click)="this.vote($event)">
+        <label for="btn-downvote">▼</label>
     </div>
 </div>
