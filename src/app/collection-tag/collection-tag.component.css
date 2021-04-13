@@ -1,5 +1,11 @@
 @media only screen and (min-width : 992px) {
   #sidenav-categories{
     top: 65px;
+    height: calc(100% - 65px);
+  }
+}
+@media only screen and (max-width : 992px) {
+  #sidenav-categories{
+    height: 100%;
   }
 }
