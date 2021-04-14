@@ -7,7 +7,7 @@
             <span class="card-title meme-title">{{this.meme?.title}}</span>
             <div class="card-content meme-tags">
                 <div class="chip meme-tag" *ngFor="let tag of this.meme?.tags">
-                    <a href="/tag/{{tag}}" class="meme-link">{{tag}}</a>
+                    <a routerLink="/tag/{{tag}}" class="meme-link">{{tag}}</a>
                 </div>
             </div>
             <span>{{this.getTimeLabel()}}</span>

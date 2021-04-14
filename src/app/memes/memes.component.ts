@@ -31,15 +31,14 @@ export class MemesComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    const routeParams = this.route.snapshot.paramMap;
+    this.route.params.subscribe(params => {
+      this.category = params["category"] || '';
+      this.tag = params["tag"] || '';
+      this.search = params["search"] || '';
 
-    this.category = routeParams.get('category') != null ? String(routeParams.get('category')) : '';
-    this.tag = routeParams.get('tag') != null ? String(routeParams.get('tag')) : '';
-    this.search = routeParams.get('search') != null ? String(routeParams.get('search')) : '';
-
-    console.log(this.tag);
-
-    this.loadMore();
+      this._memes = [];
+      this.loadMore();
+    });
   }
 
   @HostListener('window:scroll', ['$event'])
