@@ -31,7 +31,7 @@
     {
       "name": "api-performance",
       "urls": [
-        "http://www.memeboard.fr:3000/categories"
+        "https://memeboard-db.herokuapp.com/categories"
       ],
       "cacheConfig": {
         "strategy": "performance",

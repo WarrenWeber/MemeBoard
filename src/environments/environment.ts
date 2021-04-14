@@ -4,7 +4,7 @@
 
 export const environment = {
   production: false,
-  DATA_SERVER_URL: 'http://localhost:3000',
+  DATA_SERVER_URL: 'https://memeboard-db.herokuapp.com',
   MEDIA_SERVER_URL: 'http://localhost:80/MemeBoard'
 };
 
