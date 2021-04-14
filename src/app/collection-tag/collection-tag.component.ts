@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { MemeService } from '../meme.service';
+import { Observable } from 'rxjs'
+import { shareReplay } from 'rxjs/operators';
 
 @Component({
   selector: 'app-collection-tag',
@@ -8,15 +10,14 @@ import { MemeService } from '../meme.service';
 })
 export class CollectionTagComponent implements OnInit {
 
-  categories: string[];
+  categories$: Observable<string[]>;
+  categories: string[] = [];
 
   constructor(private memeService: MemeService) {
-    this.categories = [];
+    this.categories$ = this.memeService.getCategories().pipe(shareReplay(1));
   }
 
   ngOnInit(): void {
-    this.memeService.getCategories().subscribe(result => {
-      this.categories = result.sort();
-    });
+    this.categories$.subscribe(data => {this.categories = data});
   }
 }

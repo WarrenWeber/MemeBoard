@@ -3,7 +3,9 @@
 // The list of file replacements can be found in `angular.json`.
 
 export const environment = {
-  production: false
+  production: false,
+  DATA_SERVER_URL: 'http://localhost:3000',
+  MEDIA_SERVER_URL: 'http://localhost:80/MemeBoard'
 };
 
 /*

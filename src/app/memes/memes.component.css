@@ -19,6 +19,7 @@ input[type="radio"].btn-sort + label
 {
     flex: 1;
     border-radius: 10px;
+    color: black;
 }
 input[type="radio"].btn-sort + label {
     padding: 0.5rem 1rem;
@@ -27,9 +28,9 @@ input[type="radio"].btn-sort + label {
     border: 1px solid transparent;
 }
 input[type="radio"].btn-sort:checked + label {
-    color: rgb(59, 59, 230);
+    color: rgb(0, 0, 216);
     background-color: rgb(197, 197, 197);
-  }
+}
 
 .memes-container
 {
@@ -38,27 +39,25 @@ input[type="radio"].btn-sort:checked + label {
     align-items: center;
 }
 
-@media only screen and (min-width : 992px) {
-  .meme-item
-  {
+.meme-item
+{
     margin-bottom: 10px;
-    width: 40%;
-  }
-}
-@media only screen and (max-width : 992px) {
-  .meme-item
-  {
-    margin-bottom: 10px;
-    width: 70%;
-  }
+    width: 95%;
+    max-width: 500px;
 }
 
 .load_more
 {
-    display: none;
+    display: block;
     margin-left: auto;
     margin-right: auto;
     margin-bottom: 10px;
-    width: 10%;
+    min-width: 100px;
     height: 5vh;
+    border-radius: 1vh;
+    border: solid black 1px;
+}
+.load_more:active
+{
+    background-color: rgb(118, 118, 255);
 }

@@ -24,13 +24,19 @@ input[type="radio"].btn-vote
     display: none;
 }
 input[type="radio"].btn-vote + label {
-    padding: 0.2rem 0.2rem;
-    border: 1px solid black;
+    padding: 0.2rem 0.3rem;
+    color: #636363;
+    border: 1px solid #636363;
     border-radius: 5px;
     margin: 2px;
+    display: inline-block;
 }
-input[type="radio"].btn-vote:checked + label {
-    color: rgb(223, 140, 32);
-    /*background-color: rgb(223, 140, 32);*/
+input[type="radio"].btn-vote.upvote:checked + label {
+    color: rgb(38, 57, 226);
+    border: 1px solid rgb(38, 57, 226);
+}
+input[type="radio"].btn-vote.downvote:checked + label {
+    color: rgb(231, 25, 60);
+    border: 1px solid rgb(231, 25, 60);
 }
 

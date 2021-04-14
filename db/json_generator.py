@@ -38,6 +38,8 @@ with open('C:\DevWeb\MemeBoard\db\meme.json', 'r') as file_in:
             data_out['categories'].append(category)
         
         id_meme += 1
-        
+
+data_out['categories'].sort()
+
 with open('C:\DevWeb\MemeBoard\db\memes.json', 'w') as file_out:
     json.dump(data_out, file_out, indent=4)

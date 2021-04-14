@@ -5,7 +5,8 @@ import { HttpClient, HttpHeaders, HttpEventType } from '@angular/common/http';
 import { MemeService } from '../meme.service';
 import { Router } from '@angular/router';
 import {MatProgressBarModule} from '@angular/material/progress-bar';
-import { Observable, of } from 'rxjs';
+import { Observable } from 'rxjs';
+import { shareReplay } from 'rxjs/operators';
 
 @Component({
   selector: 'app-post-meme',
@@ -16,24 +17,26 @@ export class PostMemeComponent implements OnInit {
 
   memeForm : FormGroup;
 
+  uploadErrorMessage : string = '';
   uploadProgress : number = 0;
   fileName : string = "";
 
+  categories$ : Observable<string[]>;
   categories : string[] = [];
 
-  constructor(private fb: FormBuilder, private memeService: MemeService, private httpClient : HttpClient, private router: Router) {
+  constructor(private fb: FormBuilder, public memeService: MemeService, private http : HttpClient, private router: Router) {
     this.memeForm = this.fb.group({
       title: ['Title', Validators.required ],
       category: ['Random', Validators.required],
       fileName : ['', Validators.required ],
       tags : [[]]
     });
+
+    this.categories$ = this.memeService.getCategories().pipe(shareReplay(1));
   }
 
   ngOnInit(): void {
-    this.memeService.getCategories().subscribe(result => {
-      this.categories = result.sort();
-    });
+    this.categories$.subscribe(data => {this.categories = data});
   }
 
   addTag() {
@@ -59,19 +62,13 @@ export class PostMemeComponent implements OnInit {
 
   onFileChange(event: any) {
     if (!(event.target.files.length > 0)) { return; }
-      const file = event.target.files[0];
-      this.uploadImage(file);
-      //this.memeForm.get('fileName')?.setValue(file);
+      this.uploadImage(event.target.files[0]);
   }
 
   uploadImage(file : File)
   {
-    const formData = new FormData();
-    formData.append('file', file);
-    this.httpClient.post<any>("http://localhost:80/MemeBoard/upload.php", formData, {
-      reportProgress: true,
-      observe: 'events'
-    }).subscribe(
+    this.fileName = '';
+    this.memeService.postImage(file).subscribe(
       (event) => {
         if (event.type == HttpEventType.UploadProgress) {
           this.uploadProgress = Math.round(100 * (event.loaded / (event.total || 100)));
@@ -79,12 +76,14 @@ export class PostMemeComponent implements OnInit {
         }
         else if (event.type == HttpEventType.Response) {
           this.fileName = event.body;
-          console.log(this.fileName);
+          this.uploadErrorMessage = '';
           this.memeForm.get('fileName')?.setValue(this.fileName);
         }
       }, 
       (error) => {
-        console.log(error)
+        this.uploadProgress = 0;
+        this.uploadErrorMessage = "ERROR - An error has occured during the uploading of the image file";
+        console.log(error);
       }
     );
   }
@@ -99,8 +98,13 @@ export class PostMemeComponent implements OnInit {
       tags: this.memeForm.get('tags')?.value,
       votes: 0
     };
-    this.memeService.postMeme(meme).subscribe((val)=>{
-      this.router.navigate(['']);
-    });
+    this.memeService.postMeme(meme).subscribe(
+      (val)=> {
+        this.router.navigate(['']);
+      },
+      (error)=> {
+        console.log(error);
+      }
+    );
   }
 }

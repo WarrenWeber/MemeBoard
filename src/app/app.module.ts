@@ -20,7 +20,6 @@ import { CollectionTagComponent } from './collection-tag/collection-tag.componen
 const appRoutes: Routes = [
   { path: '', component: MemesComponent },
   { path: 'post', component: PostMemeComponent },
-  //{ path: ':category', component: MemesCategoryComponent},
   { path: 'category/:category', component: MemesComponent },
   { path: 'tag/:tag', component: MemesComponent },
   { path: 'search/:search', component: MemesComponent },

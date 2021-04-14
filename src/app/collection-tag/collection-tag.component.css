@@ -9,3 +9,7 @@
     height: 100%;
   }
 }
+a.collection-item
+{
+  color: rgb(46, 46, 46);
+}

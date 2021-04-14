@@ -24,6 +24,8 @@ export class MemesComponent implements OnInit {
   private tag : string = '';
   private search : string = '';
 
+  public loading : boolean = false;
+
   constructor(private memeService: MemeService, private route: ActivatedRoute) {
     this._memes = [];
   }
@@ -56,6 +58,8 @@ export class MemesComponent implements OnInit {
   }
 
   loadMore(): void {
+    this.loading = true;
+
     let queryString = this.getBaseQueryString() + `&_page=1&_limit=${this.limit}`;
 
     let lastSortAttribute = this.getLastSortAttribute();
@@ -67,25 +71,37 @@ export class MemesComponent implements OnInit {
         queryString += `&${this.sort}=${lastSortAttribute}`;
     }
 
-    this.memeService.getMemes(queryString).subscribe(result => {
-      if (result.length == this.limit || this._memes.length == 0)
-      {
-        Array.prototype.push.apply(this._memes, result);
-      }
-      else
-      {
-        let queryString2 = this.getBaseQueryString() + `&_page=1&_limit=${this.limit - result.length}`;
-
-        if (lastSortAttribute != undefined) {
-          queryString2 += `&${this.sort}_${this.sort_order == 'desc' ? "lte" : "gte"}=${lastSortAttribute}&${this.sort}_ne=${lastSortAttribute}`;
-        }
-
-        this.memeService.getMemes(queryString2).subscribe(result2 => {
-          Array.prototype.push.apply(result, result2);
+    this.memeService.getMemes(queryString).subscribe(
+      (result) => {
+        if (result.length == this.limit || this._memes.length == 0)
+        {
           Array.prototype.push.apply(this._memes, result);
-        });
+          this.loading = false;
+        }
+        else
+        {
+          let queryString2 = this.getBaseQueryString() + `&_page=1&_limit=${this.limit - result.length}`;
+
+          if (lastSortAttribute != undefined) {
+            queryString2 += `&${this.sort}_${this.sort_order == 'desc' ? "lte" : "gte"}=${lastSortAttribute}&${this.sort}_ne=${lastSortAttribute}`;
+          }
+
+          this.memeService.getMemes(queryString2).subscribe(
+            (result2) => {
+              Array.prototype.push.apply(result, result2);
+              Array.prototype.push.apply(this._memes, result);
+              this.loading = false;
+            },
+            (error) => {
+              this.loading = false;
+            }
+          );
+        }
+      },
+      (error) => {
+        this.loading = false;
       }
-    });
+    );
   }
 
   getBaseQueryString() : string {
