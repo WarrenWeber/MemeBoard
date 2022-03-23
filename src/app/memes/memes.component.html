@@ -8,4 +8,4 @@
 <div class="memes-container" *ngFor="let meme of this.memes()">
     <app-meme class="meme-item" [meme]="meme"></app-meme>
 </div>
-<button class="load_more" id="LoadMore" (click)="this.loadMore()">Load more</button>
+<button class="load_more" id="LoadMore" (click)="this.loadMore()"><span *ngIf="!this.loading">Load more</span><i class="material-icons prefix icon-loading" *ngIf="this.loading">autorenew</i></button>

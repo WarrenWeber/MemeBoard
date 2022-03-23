@@ -12,7 +12,7 @@ export class MemeComponent implements OnInit {
   @Input()
   meme?: Meme;
 
-  constructor(private memeService: MemeService) { }
+  constructor(public memeService: MemeService) {}
 
   ngOnInit(): void {
   }

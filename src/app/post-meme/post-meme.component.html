@@ -9,25 +9,26 @@
         <div class="form-input">
             <label>Category :
                 <select formControlName="category">
-                    <option *ngFor="let cat of this.categories" value={{cat}}>{{cat}}</option>
+                    <option *ngFor="let cat of this.categories" [selected] value={{cat}}>{{cat}}</option>
                 </select>
             </label>
         </div>
         <div class="form-input image-upload">
-
-            <label>
-                Image :
+            <label>Image :
                 <div class="image-preview-placeholder">
-                    <img class="image-preview" src="http://localhost:80/MemeBoard/images/{{this.fileName}}" *ngIf="this.fileName != ''">
+                    <img class="image-preview" src="{{this.memeService.MEDIA_SERVER_URL}}/images/{{this.fileName}}" *ngIf="this.fileName != ''">
+                </div>
+                <div class="image-upload-error" *ngIf="this.uploadErrorMessage != ''">
+                    <i class="material-icons prefix upload-error-icon">error</i><span>{{this.uploadErrorMessage}}</span><i class="material-icons prefix upload-error-clear-icon" (click)="$event.stopPropagation(); this.uploadErrorMessage = ''">clear</i>
                 </div>
                 <div class="progress">
-                    <mat-progress-bar class="progress-bar" mode="determinate" [value]="uploadProgress" *ngIf="this.uploadProgress != 0 && this.uploadProgress != 100"></mat-progress-bar>  
+                    <mat-progress-bar class="progress-bar" mode="determinate" [value]="uploadProgress" *ngIf="this.uploadProgress > 0 && this.uploadProgress < 100"></mat-progress-bar>  
                 </div>
                 <input type=file accept="image/*" (change)="onFileChange($event)">
             </label>
         </div>
         <div class="form-input">
-            <label>Tags :</label>
+            <label for="tag-editor-txt">Tags :</label>
             <div class="tag-editor">
                 <span class="tag-editor-item meme-tag" *ngFor="let tag of this.memeForm.get('tags')?.value">
                     <span class="tag-label">{{tag}}</span>

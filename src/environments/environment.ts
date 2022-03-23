@@ -3,7 +3,9 @@
 // The list of file replacements can be found in `angular.json`.
 
 export const environment = {
-  production: false
+  production: false,
+  DATA_SERVER_URL: 'https://memeboard-db.herokuapp.com',
+  MEDIA_SERVER_URL: 'https://warrenweber.alwaysdata.net'
 };
 
 /*

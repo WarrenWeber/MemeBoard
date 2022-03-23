@@ -24,20 +24,21 @@ export class MemesComponent implements OnInit {
   private tag : string = '';
   private search : string = '';
 
+  public loading : boolean = false;
+
   constructor(private memeService: MemeService, private route: ActivatedRoute) {
     this._memes = [];
   }
 
   ngOnInit(): void {
-    const routeParams = this.route.snapshot.paramMap;
+    this.route.params.subscribe(params => {
+      this.category = params["category"] || '';
+      this.tag = params["tag"] || '';
+      this.search = params["search"] || '';
 
-    this.category = routeParams.get('category') != null ? String(routeParams.get('category')) : '';
-    this.tag = routeParams.get('tag') != null ? String(routeParams.get('tag')) : '';
-    this.search = routeParams.get('search') != null ? String(routeParams.get('search')) : '';
-
-    console.log(this.tag);
-
-    this.loadMore();
+      this._memes = [];
+      this.loadMore();
+    });
   }
 
   @HostListener('window:scroll', ['$event'])
@@ -56,6 +57,8 @@ export class MemesComponent implements OnInit {
   }
 
   loadMore(): void {
+    this.loading = true;
+
     let queryString = this.getBaseQueryString() + `&_page=1&_limit=${this.limit}`;
 
     let lastSortAttribute = this.getLastSortAttribute();
@@ -67,25 +70,37 @@ export class MemesComponent implements OnInit {
         queryString += `&${this.sort}=${lastSortAttribute}`;
     }
 
-    this.memeService.getMemes(queryString).subscribe(result => {
-      if (result.length == this.limit || this._memes.length == 0)
-      {
-        Array.prototype.push.apply(this._memes, result);
-      }
-      else
-      {
-        let queryString2 = this.getBaseQueryString() + `&_page=1&_limit=${this.limit - result.length}`;
-
-        if (lastSortAttribute != undefined) {
-          queryString2 += `&${this.sort}_${this.sort_order == 'desc' ? "lte" : "gte"}=${lastSortAttribute}&${this.sort}_ne=${lastSortAttribute}`;
-        }
-
-        this.memeService.getMemes(queryString2).subscribe(result2 => {
-          Array.prototype.push.apply(result, result2);
+    this.memeService.getMemes(queryString).subscribe(
+      (result) => {
+        if (result.length == this.limit || this._memes.length == 0)
+        {
           Array.prototype.push.apply(this._memes, result);
-        });
+          this.loading = false;
+        }
+        else
+        {
+          let queryString2 = this.getBaseQueryString() + `&_page=1&_limit=${this.limit - result.length}`;
+
+          if (lastSortAttribute != undefined) {
+            queryString2 += `&${this.sort}_${this.sort_order == 'desc' ? "lte" : "gte"}=${lastSortAttribute}&${this.sort}_ne=${lastSortAttribute}`;
+          }
+
+          this.memeService.getMemes(queryString2).subscribe(
+            (result2) => {
+              Array.prototype.push.apply(result, result2);
+              Array.prototype.push.apply(this._memes, result);
+              this.loading = false;
+            },
+            (error) => {
+              this.loading = false;
+            }
+          );
+        }
+      },
+      (error) => {
+        this.loading = false;
       }
-    });
+    );
   }
 
   getBaseQueryString() : string {
